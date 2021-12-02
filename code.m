@@ -3,7 +3,6 @@
 close all
 
 %% Images entr�es
-
 img1 = imread('rectanglebleu.jpg');
 img2 = imread('panneau.jpg');
 figure, imshow(img1);
@@ -67,21 +66,30 @@ H=homographie(X1,X2,Y1,Y2);
 
 [h2,w2,z2] = size(img2);
 M2 = zeros(3,1);
+M= zeros(3,1);
 %%
 for i=1:w2
     for j=1:h2
-        M2 = H*[i;j;1];
-        x2= M2(1);
-        y2 = M2(2);
-    
-        if (x2>=X1(1) && x2<=X1(4) && y2>=Y1(1) && y2<=Y1(4)) % On vérifie si on est dans le rectangle
-            
-            img2(floor(x2),floor(y2),:)=img1(floor(x2),floor(y2),:);
+        x2= H(1,1)*X1
+        M = H*[i;j;1];
+        x= M(1);
+        y = M(2);
+
+        if (x>=X1(1) && x<=X1(4) && y>=Y1(1) && y<=Y1(4)) % On vérifie si on est dans le rectangle
+            M2= inv(H)*M;
+            x2= M2(1);
+            y2= M(2);
+            img2(round(x2),round(y2),:)=img1(round(x1),round(x2),:);
         end
        
     end
 end
 imshow(img2);
+%Utiliser triplet(image,masque,boite englobante) masque on initialise avec que des 1
+%Calculer des nouvelles boites englobantes en appliquant l'homographie �
+%l'image de base (aux 4 points) puis min et max de ces 4 nouveaux points
+%Puis, la boite englobante donne la taille de la matrice image et mask et
+%les remplir, pour cela,
 
 
 
