@@ -4,8 +4,8 @@ close all
 
 %% Images entr�es
 
-img1 = imread('background.jpg');
-img2 = imread('foreground.jpg');
+img1 = imread('rectanglebleu.jpg');
+img2 = imread('panneau.jpg');
 figure, imshow(img1);
 [X1,Y1] = ginput(4);
 close;
@@ -59,19 +59,29 @@ close;
 % 
 %     H_=A\B;
 %     H=[H_(1) H_(2) H_(3);H_(4) H_(5) H_(6);H_(7) H_(8) 1];
+
 H=homographie(X1,X2,Y1,Y2);
 
 %% On applique H au pixels de l'image que l'on veut retoucher (checker si on est dans le rectangle)
 
 
-[h,w,z] = size(img);
-
-
-for i=1:w
-    for j=1:h
-        
+[h2,w2,z2] = size(img2);
+M2 = zeros(3,1);
+%%
+for i=1:w2
+    for j=1:h2
+        M2 = H*[i;j;1];
+        x2= M2(1);
+        y2 = M2(2);
+    
+        if (x2>=X1(1) && x2<=X1(4) && y2>=Y1(1) && y2<=Y1(4)) % On vérifie si on est dans le rectangle
+            
+            img2(floor(x2),floor(y2),:)=img1(floor(x2),floor(y2),:);
+        end
+       
     end
 end
+imshow(img2);
 
 
 

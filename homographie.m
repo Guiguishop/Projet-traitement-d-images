@@ -11,9 +11,10 @@ function [H]= homographie(X1,X2,Y1,Y2)
     end
 
     A=zeros(8,8);
-    for i=1:2:5
-        A(i,:)=[X1(i) Y1(i) 1 0 0 0 -X2(i)*X1(i) -X2(i)*Y1(i)];
-        A(i+1,:)=[0 0 0 X1(i) Y1(i) 1 -X1(i)*Y2(i) -Y1(i)*Y2(i)]; 
+    for i=1:2:7
+        index = round(i/2);
+        A(i,:)=[X1(index) Y1(index) 1 0 0 0 -X2(index)*X1(index) -X2(index)*Y1(index)];
+        A(i+1,:)=[0 0 0 X1(index) Y1(index) 1 -X1(index)*Y2(index) -Y1(index)*Y2(index)]; 
     end
 
     H_=A\B;
