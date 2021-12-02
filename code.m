@@ -1,23 +1,18 @@
-clc
-clear all
+%clc
+%clear all
 close all
 
-%%
-%Utiliser A\B pour résoudre AX =B et pour le calcul du pseudo-inverse
+%% Images entrées
 
 img1 = imread('background.jpg');
 img2 = imread('foreground.jpg');
 %figure, imshow(img1);
 %[X1,Y1] = ginput(4);
-%close
-figure,imshow(img2);
-[X2,Y2] = ginput(4);
-close
+ %figure,imshow(img2);
+%[X2,Y2] = ginput(4);
 
-%%
-H = zeros(3,3);
-H(3,3)=1;
 
+%% Calcul de H
 B = zeros(8,1);
 
 if (length(X2) == length(Y2))
@@ -28,4 +23,48 @@ if (length(X2) == length(Y2))
 else
     disp("Error dim");
 end
+
+A=zeros(8,8);
+index=0;
+for i=1:8
+    for j=1:8
+            index = round(i/2);       
+            if( (j==1 && mod(i,2)~=0) || (j==4 && mod(i,2)==0))
+                A(i,j)=X1(index);
+            end
+            if( (j==2 && mod(i,2)~=0) || (j==5 && mod(i,2)==0))
+                    A(i,j)= Y1(index);
+            end
+            if( (j==3 && mod(i,2)~=0) || (j==6 && mod(i,2)==0))
+                    A(i,j)=1;
+            end
+            if(j ==7 && mod(i,2)==0)
+                A(i,j)= -X1(index)*Y2(index);
+            end
+            if( j==7 && mod(i,2)~=0)
+                A(i,j)= -X1(index)*X2(index);
+            end
+            if(j==8 && mod(i,2)==0)
+                A(i,j)= -Y1(index)*Y2(index);
+            end
+            if(j==8 && mod(i,2)~=0)
+                A(i,j) = -Y1(index)*X2(index);
+            end
+            disp(["index vaut" index])
+    end
+end
+
+H_=A\B;
+H=[H_(1) H_(2) H_(3);H_(4) H_(5) H_(6);H_(7) H_(8) 1];
+
+
+    
+
+            
+               
+            
+  
+    
+
+                
 
