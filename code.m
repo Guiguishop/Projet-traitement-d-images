@@ -6,10 +6,10 @@ close all
 
 img1 = imread('background.jpg');
 img2 = imread('foreground.jpg');
-%figure, imshow(img1);
-%[X1,Y1] = ginput(4);
- %figure,imshow(img2);
-%[X2,Y2] = ginput(4);
+figure, imshow(img1);
+[X1,Y1] = ginput(4);
+figure,imshow(img2);
+[X2,Y2] = ginput(4);
 
 
 %% Calcul de H
@@ -23,6 +23,7 @@ if (length(X2) == length(Y2))
 else
     disp("Error dim");
 end
+
 
 A=zeros(8,8);
 index=0;
@@ -56,15 +57,3 @@ end
 
 H_=A\B;
 H=[H_(1) H_(2) H_(3);H_(4) H_(5) H_(6);H_(7) H_(8) 1];
-
-
-    
-
-            
-               
-            
-  
-    
-
-                
-
