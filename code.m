@@ -5,10 +5,12 @@ close all
 %% Images entrï¿½es
 img1 = imread('rectanglebleu.jpg');
 img2 = imread('panneau.jpg');
-% figure, imshow(img1);
-% [X1,Y1] = ginput(4);
-% figure,imshow(img2);
-%  [X2,Y2] = ginput(4);
+%  figure, imshow(img1);
+[h,w,z] = size(img1);
+[X1] = [1 ; 1 ; w ; w];
+[Y1] = [1 ; h ; 1 ; h];
+figure,imshow(img2);
+[X2,Y2] = ginput(4);
 
 
 %%
@@ -57,14 +59,12 @@ img2 = imread('panneau.jpg');
 %     H_=A\B;
 %     H=[H_(1) H_(2) H_(3);H_(4) H_(5) H_(6);H_(7) H_(8) 1];
 
-H=homographie(X1,X2,Y1,Y2);
+H=system_solve(X1,Y1,X2,Y2);
 
 %% On applique H au pixels de l'image que l'on veut retoucher (checker si on est dans le rectangle)
 
-[h,w,z] = size(img1);
+
 [h2,w2,z2] = size(img2);
-M2 = zeros(3,1);
-M= zeros(3,1);
 
 % for i=1:w2
 %     for j=1:h2
@@ -82,19 +82,22 @@ M= zeros(3,1);
 %        
 %     end
 % end
-for i=1:w
-    for j=1:h
-        x2= (H(1,1)*i + H(1,2)*j +H(1,3))/(H(3,1)*i+H(3,2)*j +H(3,3));
-        y2= (H(2,1)*i + H(2,2)*j +H(2,3))/(H(3,1)*i + H(3,2)*j+H(3,3));
-        if(x2>=1 && x2<=w && y2>=1 && y2<=h)
-            img2(j,i,:)=img1(floor(y2),floor(x2),:);
+for i=1:w2
+    for j=1:h2
+         H = inv(H);
+        
+        
+        x1=floor((H(1,1)*i + H(1,2)*j +H(1,3))/(H(3,1)*i+H(3,2)*j +H(3,3)));
+        y1= floor((H(2,1)*i + H(2,2)*j +H(2,3))/(H(3,1)*i + H(3,2)*j+H(3,3)));
+        if(x1>=1 && x1<w && y1>=1 && y1<h)
+            img2(j,i,:)=img1(y1,x1,:);
         end
     end
 end
             
 figure,imshow(img2);
 %Utiliser triplet(image,masque,boite englobante) masque on initialise avec que des 1
-%Calculer des nouvelles boites englobantes en appliquant l'homographie à
+%Calculer des nouvelles boites englobantes en appliquant l'homographie ï¿½
 %l'image de base (aux 4 points) puis min et max de ces 4 nouveaux points
 %Puis, la boite englobante donne la taille de la matrice image et mask et
 %les remplir, pour cela,
