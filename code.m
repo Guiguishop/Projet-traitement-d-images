@@ -16,7 +16,7 @@ figure,imshow(img2);
 
 
 %% On applique H au pixels de l'image que l'on veut retoucher (checker si on est dans le rectangle)
-H=system_solve(X1,Y1,X2,Y2);  % H va de 2 vers 1
+H=homographie(X1,X2,Y1,Y2);  % H va de 2 vers 1
 [h2,w2,z2] = size(img2);
 
 
