@@ -3,7 +3,7 @@
 close all
 
 %% Images entrï¿½es
-img1 = imread('dbzmcdo.jpg');
+img1 = imread('avisluffy.jpg');
 img2 = imread('panneauburger.jpg');
 
 
@@ -15,8 +15,8 @@ img2 = imread('panneauburger.jpg');
 figure,imshow(img2);
 [X2,Y2] = ginput(4);
 
-%% On applique H au pixels de l'image que l'on veut retoucher (checker si on est dans le rectangle)
-H=system_solve(X1,Y1,X2,Y2);  % H va de 2 vers 1
+%% Application de l'homographie mode projection
+H= homographie(X1,X2,Y1,Y2);  
 [h2,w2,z2] = size(img2);
 
 Hinv = eye(3)/H;
@@ -32,13 +32,23 @@ end
             
 figure,imshow(img2);
 
+%% Application homographie mode extractionc
+clear all;
+close all;
+
+img = imread("avisluffy.jpg");
+h=800;
+w=600;
+newimg = extract(img,h,w);
+
+%%
+
+
+
+
 %1) Fonction qui donne des triplets à partir d'une image
 %Utiliser triplet(image,masque,boite englobante)pour chaque image masque on initialise avec que des 1
 %Calculer des nouvelles boites englobantes en appliquant l'homographie à
-
-%Utiliser triplet(image,masque,boite englobante) masque on initialise avec que des 1
-%Calculer des nouvelles boites englobantes en appliquant l'homographie ï¿½
-
 %l'image de base (aux 4 points) puis min et max de ces 4 nouveaux points
 %Puis, la boite englobante donne la taille de la matrice image et mask et
 %les remplir, pour cela,
