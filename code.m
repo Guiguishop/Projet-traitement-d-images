@@ -19,7 +19,6 @@ H= homographie(X1,X2,Y1,Y2);
 [h2,w2,z2] = size(img2);
 
 
-
 Hinv = eye(3)/H;
 for i=1:w2
     for j=1:h2    
