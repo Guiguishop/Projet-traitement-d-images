@@ -1,4 +1,4 @@
-function [img1]=extract(img2,h,w) % récupération d'une partie de img2 de taille h*w
+function img1=extract(img2,h,w) % récupération d'une partie de img2 de taille h*w
 
     figure,imshow(img2);
     [X2,Y2] = ginput(4);
