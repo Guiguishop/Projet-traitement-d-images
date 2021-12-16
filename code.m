@@ -45,19 +45,15 @@ newimg = extract(img,h,w);
 %%
 
 
-
-
-%1) Fonction qui donne des triplets ‡ partir d'une image
+%1) fonction (triplet,homographie) --> triplet
 %Utiliser triplet(image,masque,boite englobante)pour chaque image masque on initialise avec que des 1
-%Calculer des nouvelles boites englobantes en appliquant l'homographie ‡ l'image de base (aux 4 points) puis min et max de ces 4 nouveaux points
+%Calculer des nouvelles boites englobantes en appliquant l'homographie ‡ l'image de base (aux 4 points) puis min et max pour rÈcup le rectangle encadrant le quadrangle de ces 4 nouveaux points
 %Puis, la boite englobante donne la taille de la matrice image et mask et
-%les remplir, pour cela,
+%appliquer homographie inverse pour recup I2,mask2
 
-%Utiliser triplet(image,masque,boite englobante) masque on initialise avec que des 1
-%Calculer des nouvelles boites englobantes en appliquant l'homographie ÔøΩ
 
-%2)fonction (triplet,homographie) --> triplet
-%3)Masque utilisÔøΩ pour la fusion (triplet,triplet)-> triplet
+%2)Masque utilisÔøΩ pour la fusion (triplet,triplet)-> triplet (voir eq6 et
+%7 dans le sujet)
 
 
 %Extraction d'image, homographie sur le cadre dans une image pr√©d√©fini de
