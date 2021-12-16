@@ -1,16 +1,17 @@
-function [img1]=extract(img2,h,w)
+function [img1]=extract(img2,h,w) % récupération d'une partie de img2 de taille h*w
 
     figure,imshow(img2);
     [X2,Y2] = ginput(4);
 
     %% Création d'image
+    
     img1 = zeros(h,w,3);
 
     [X1] = [1 ; w ; w ; 1];
     [Y1] = [1 ; 1 ; h ; h];
 
     H=homographie(X1,X2,Y1,Y2);  
-    [h2,w2,z2] = size(img2);
+    [h2,w2,~] = size(img2);
 
     for i=1:w
         for j=1:h    

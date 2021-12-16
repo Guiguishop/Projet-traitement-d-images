@@ -1,4 +1,4 @@
-function [H]= projection(img1,img2) % projection de img2 sur img1
+function [img2,H]= projection(img1,img2) % projection de img2 sur img1
 
     [h,w,~] = size(img1);
     [h2,w2,~] = size(img2);

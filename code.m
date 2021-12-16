@@ -1,40 +1,17 @@
-%clc
-%clear all
+clc
 close all
 
-%% Images entrÈes
-img1 = imread('avisluffy.jpg');
-img2 = imread('panneauburger.jpg');
-
-
-[h,w,z] = size(img1);
-[X1] = [1 ; w ; w ; 1];
-[Y1] = [1 ; 1 ; h ; h];
-figure,imshow(img2);
-[X2,Y2] = ginput(4);
+%% Images entrÔøΩes
+img1 = imread('background.jpg');
+img2 = imread('foreground.jpg');
 
 
 %% Application de l'homographie mode projection
-H= homographie(X1,X2,Y1,Y2);  
-[h2,w2,z2] = size(img2);
 
-
-Hinv = eye(3)/H;
-for i=1:w2
-    for j=1:h2    
-         x1=(Hinv(1,1)*i + Hinv(1,2)*j +Hinv(1,3))/(Hinv(3,1)*i+Hinv(3,2)*j +Hinv(3,3));
-         y1= (Hinv(2,1)*i + Hinv(2,2)*j +Hinv(2,3))/(Hinv(3,1)*i + Hinv(3,2)*j+Hinv(3,3));
-        if(x1>=1 && x1<=w && y1>=1 && y1<=h)
-            img2(j,i,:)=img1(floor(y1),floor(x1),:);
-
-        end
-    end
-end
-            
-figure,imshow(img2);
+H= projection(img1,img2);  
 
 %% Application homographie mode extraction
-clear all;
+
 close all;
 
 img = imread("avisluffy.jpg");
@@ -42,26 +19,30 @@ h=800;
 w=600;
 newimg = extract(img,h,w);
 
+%% Test img2triplet
+
+[I,M,B] = img2triplet(img1);
+[Ih,Mh,Bh]  = homographie_triplet(I,M,B);
+
 %%
 
-
-
-
-%1) Fonction qui donne des triplets ‡ partir d'une image
+%1) Fonction qui donne des triplets ÔøΩ partir d'une image
 %Utiliser triplet(image,masque,boite englobante)pour chaque image masque on initialise avec que des 1
-%Calculer des nouvelles boites englobantes en appliquant l'homographie ‡ l'image de base (aux 4 points) puis min et max de ces 4 nouveaux points
+%Calculer des nouvelles boites englobantes en appliquant l'homographie ÔøΩ l'image de base (aux 4 points) puis min et max de ces 4 nouveaux points
 %Puis, la boite englobante donne la taille de la matrice image et mask et
 %les remplir, pour cela,
 
-%Utiliser triplet(image,masque,boite englobante) masque on initialise avec que des 1
-%Calculer des nouvelles boites englobantes en appliquant l'homographie ÔøΩ
 
 %2)fonction (triplet,homographie) --> triplet
 %3)Masque utilisÔøΩ pour la fusion (triplet,triplet)-> triplet
 
 
-%Extraction d'image, homographie sur le cadre dans une image pr√©d√©fini de
-%taille w*h
+% 1 I -> {I,M,B}
+% 2 {I1,M1,B1} , H -> {I2,M2,B2}
+% 3 {I1,M1,B1},{I2,M2,B2} -> {I3,M3,B3}
 
+% 2) B1 = bo√Æte englobante cad points limites du rectangle, apr√®s
+% homographie, B2 = quadrangle, utilisation de min et max pour d√©terminer
+% le rectangle
 
-
+% 3) voir sujet pour relation entre img3, img2 et img1
