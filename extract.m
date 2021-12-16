@@ -2,6 +2,7 @@ function img1=extract(img2,h,w) % récupération d'une partie de img2 de taille 
 
     figure,imshow(img2);
     [X2,Y2] = ginput(4);
+    close
 
     %% Création d'image
     
